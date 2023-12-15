@@ -1,0 +1,48 @@
+# Get your laptop ready in advance for an online assessment.
+# 1. Create a fresh React Native project on your laptop.
+# 2. You should be able to run the app on simulator during the online assessment.
+
+# Time Duration - one and half hour.
+
+
+# -- Problem Statement --
+
+# Build a TODO application which allows the following operations
+
+# 1. List Todo
+# 2. Add Todo
+# 3. Update Todo
+# 4. Delete Todo - We should be able to delete multiple todos and refresh the list only once after all Todos deletion request has been completed
+
+# ----------------------------------------
+ 
+# UI refernece
+# Google Task App
+# https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=en&gl=US
+# Note - Given the time constraints, you're free to design an intuitive and aesthetically pleasing user interface without sticking strictly to the original layout. Use your creativity to craft something beautiful and user-friendly.
+
+# ----------------------------------------
+
+# Here are the list of apis which you can use 
+
+###
+GET https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos
+
+###
+POST https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos
+content-type: application/json
+
+{
+    "task":"Prepare Breakfast"
+}
+
+###
+PUT https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos/1
+content-type: application/json
+
+{
+    "task":"Prepare Dinner"
+}
+
+###
+DELETE  https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos/1
