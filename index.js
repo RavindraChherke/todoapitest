@@ -49,11 +49,19 @@ app.post('/api/todos', (req, res) => {
 // Update a todo
 app.put('/api/todos/:id', (req, res) => {
     const todoId = req.params.id;
+    const updatedTask = req.body.task;
+
+    // Check if task field is empty or not provided
+    if (!updatedTask || updatedTask.trim() === '') {
+        return res.status(400).json({ error: 'Task cannot be empty' });
+    }
+
     const todo = todos.find(todo => todo.id === parseInt(todoId));
     if (!todo) {
         return res.status(404).json({ error: 'Todo not found' });
     }
-    todo.task = req.body.task;
+
+    todo.task = updatedTask.trim(); // Update the task and trim extra spaces
     res.json(todo);
 });
 
