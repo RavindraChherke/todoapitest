@@ -26,18 +26,18 @@
 # Here are the list of apis which you can use 
 
 ###
-GET https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos
+GET http://localhost:4000/api/todos?page=1&limit=10
 
 ###
-POST https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos
+POST https://localhost:4000/api/todos
 content-type: application/json
 
 {
-    "task":"Prepare Breakfast"
+    "task":"Learn NodeJS"
 }
 
 ###
-PUT https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos/1
+PUT https://localhost:4000/api/todos/1
 content-type: application/json
 
 {
@@ -45,4 +45,4 @@ content-type: application/json
 }
 
 ###
-DELETE  https://g8m2f5ln-3000.inc1.devtunnels.ms/api/todos/1
+DELETE  https://localhost:4000/api/todos/1

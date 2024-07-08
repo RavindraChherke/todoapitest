@@ -2,20 +2,87 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors'); 
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 
 app.use(bodyParser.json());
-app.use(cors()); 
-let todos = [];
+app.use(cors());
 
 // Function to generate a random 10-digit ID
 function generateRandomId() {
     return Math.floor(1000000000 + Math.random() * 9000000000);
 }
 
-// Get all todos
+let todos = [];
+
+// Function to create dummy todos
+function createDummyTodos(count) {
+    const tasks = [
+        'Buy groceries', 'Walk the dog', 'Finish homework', 'Clean the house', 'Call mom',
+        'Prepare dinner', 'Write report', 'Attend meeting', 'Read a book', 'Work out',
+        'Pay bills', 'Fix the car', 'Visit the doctor', 'Watch a movie', 'Go shopping',
+        'Plan vacation', 'Water plants', 'Send emails', 'Organize files', 'Take a nap',
+        'Meditate', 'Feed the cat', 'Learn guitar', 'Practice yoga', 'Bake cookies',
+        'Play video games', 'Study for exam', 'Go for a run', 'Write a blog post', 'Attend class',
+        'Do laundry', 'Clean the fridge', 'Mow the lawn', 'Update resume', 'Make a presentation',
+        'Research project', 'Take out trash', 'Plan a party', 'Volunteer work', 'Schedule appointment',
+        'Buy a gift', 'Check emails', 'Backup data', 'Go hiking', 'Visit friends',
+        'Make a budget', 'Buy new shoes', 'Write a poem', 'Decorate home', 'Take photos'
+    ];
+
+    for (let i = 0; i < count; i++) {
+        todos.push({
+            id: generateRandomId(),
+            task: tasks[i % tasks.length]
+        });
+    }
+}
+
+// Create 50 dummy todos
+createDummyTodos(50);
+
+// // Get all todos
+// app.get('/api/todos', (req, res) => {
+//     res.json(todos);
+// });
+
+// Get all todos with pagination and search
 app.get('/api/todos', (req, res) => {
-    res.json(todos);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const query = req.query.q || '';
+    
+    // Filter todos based on search query
+    const filteredTodos = todos.filter(todo => todo.task.toLowerCase().includes(query.toLowerCase()));
+    
+    const total = filteredTodos.length;
+    const totalPages = Math.ceil(total / limit);
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = {};
+
+    if (endIndex < total) {
+        results.next = {
+            page: page + 1,
+            limit: limit
+        };
+    }
+    
+    if (startIndex > 0) {
+        results.previous = {
+            page: page - 1,
+            limit: limit
+        };
+    }
+    
+    results.total = total;
+    results.pages = totalPages;
+    results.current_page = page;
+    results.page_size = limit;
+    results.results = filteredTodos.slice(startIndex, endIndex);
+
+    res.json(results);
 });
 
 // Get a specific todo
